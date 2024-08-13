@@ -4,20 +4,34 @@
     "type": "silverstripe-module",
     "homepage": "http://github.com/dljoseph/silverstripe-maintenance-mode",
     "keywords": [
-        "silverstripe","maintenance mode","under construction","coming soon",
-        "offline page","utility page","landing page"
+        "silverstripe",
+        "maintenance mode",
+        "under construction",
+        "coming soon",
+        "offline page",
+        "utility page",
+        "landing page"
     ],
     "license": "BSD-3-Clause",
     "authors": [
-        {"name": "Darren-Lee Joseph","email": "darren.lee.joseph@gmail.com"},
-        {"name": "Patrick Nelson","email": "pat@catchyour.com"},
-        {"name": "Myles Beardsmore","email": "mediabeastnz@gmail.com"}
+        {
+            "name": "Darren-Lee Joseph",
+            "email": "darren.lee.joseph@gmail.com"
+        },
+        {
+            "name": "Patrick Nelson",
+            "email": "pat@catchyour.com"
+        },
+        {
+            "name": "Myles Beardsmore",
+            "email": "mediabeastnz@gmail.com"
+        }
     ],
     "support": {
         "issues": "http://github.com/dljoseph/silverstripe-maintenance-mode/issues"
     },
     "require": {
-        "silverstripe/vendor-plugin": "^1.0",
+        "silverstripe/vendor-plugin": "^2",
         "silverstripe/cms": "^5"
     },
     "autoload": {
@@ -31,5 +45,11 @@
             "client"
         ]
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/vendor-plugin": true
+        }
+    }
 }

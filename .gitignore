@@ -9,3 +9,5 @@ _resampled/
 .DS_Store
 .Thumbs.db
 vendor/
+composer.lock
+public/
