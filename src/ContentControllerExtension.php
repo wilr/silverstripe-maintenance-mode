@@ -20,7 +20,7 @@ use SilverStripe\Core\Extension;
 use SilverStripe\Security\Permission;
 use SilverStripe\SiteConfig\SiteConfig;
 
-class PageControllerExtension extends Extension
+class ContentControllerExtension extends Extension
 {
 
     /**
@@ -28,14 +28,13 @@ class PageControllerExtension extends Extension
      *
      * @var array
      */
-    private static $allowed_ips = array();
+    private static $allowed_ips = [];
 
     /**
      * @return HTTPResponse
      */
     public function onBeforeInit()
     {
-
         $config = SiteConfig::current_site_config();
 
         // If Maintenance Mode is Off, skip processing
