@@ -2,6 +2,7 @@
 
 namespace dljoseph\MaintenanceMode;
 
+use SilverStripe\Control\Director;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 
@@ -15,43 +16,39 @@ use SilverStripe\Security\PermissionProvider;
 class UtilityPageController extends \PageController implements PermissionProvider
 {
 
-    private static $url_handlers = array(
+    private static $url_handlers = [
         '*' => 'index'
-    );
+    ];
 
-    private static $allowed_actions = array();
-
-    public function init()
-    {
-        parent::init();
-    }
+    private static $allowed_actions = [];
 
     /**
      * @return mixed
      */
     public function index()
     {
-
         $config = $this->SiteConfig();
 
-        //regular non-admin users should only be able to see this utility page in maintenance mode
+        // regular non-admin users should only be able to see this utility page in maintenance mode
         if (!$config->MaintenanceMode && !Permission::check('ADMIN')) {
-            return $this->redirect(BASE_URL); //redirect to home page
+            return $this->redirect(Director::absoluteBaseURL());
         }
 
         $this->response->setStatusCode($this->ErrorCode);
 
         if ($this->dataRecord->RenderingTemplate) {
-            return $this->renderWith(array($this->dataRecord->RenderingTemplate));
+            return $this->renderWith([
+                $this->dataRecord->RenderingTemplate
+            ]);
         }
 
-        return $this->renderWith(array('UtilityPage', 'Page'));
+        return $this->renderWith(['UtilityPage', 'Page']);
     }
 
     public function providePermissions()
     {
-        return array(
+        return [
             'VIEW_SITE_MAINTENANCE_MODE' => 'Access the site in Maintenance Mode'
-        );
+        ];
     }
 }

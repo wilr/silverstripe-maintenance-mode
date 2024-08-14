@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Ability to easily toggle maintenance mode via CLI. To run this command:
  *
@@ -20,66 +21,64 @@ use SilverStripe\SiteConfig\SiteConfig;
 
 class MaintenanceMode extends BuildTask
 {
-	protected $title = 'Maintance Mode Task';
-	protected $description = 'Ability to easily toggle maintenance mode via CLI.';
-	protected $enabled = true;
+    protected $title = 'Maintance Mode Task';
 
-	/**
-	 * @param	\SilverStripe\Control\HTTPRequest $request
-	 */
-	public function run($request)
-	{
-		// Only allow execution from the command line (for simplicity).
-		if (!Director::is_cli()) {
-			echo '<p>Sorry, but this can only be run from the command line.</p>';
-			return;
-		}
+    protected $description = 'Ability to easily toggle maintenance mode via CLI.';
 
-		try {
-			// Get and validate desired maintenance mode setting.
-			$get = $request->getVars();
-			if (empty($get['args'])) {
-				throw new \Exception("Please provide an argument (e.g. 'on' or 'off').", 1);
-			}
+    protected $enabled = true;
 
-			$arg = strtolower(current($get['args']));
-			if ($arg != 'on' && $arg != 'off') {
-				throw new \Exception("Invalid argument: '$arg' (expected 'on' or 'off')", 2);
-			}
+    private static $segment = 'MaintenanceMode';
 
-			// Get and write site configuration now.
-			$config = SiteConfig::current_site_config();
-			$previous = (!empty($config->MaintenanceMode) ? 'on' : 'off');
-			$config->MaintenanceMode = ($arg == 'on');
-			$config->write();
+    /**
+     * @param \SilverStripe\Control\HTTPRequest $request
+     */
+    public function run($request)
+    {
+        // Only allow execution from the command line (for simplicity).
+        if (!Director::is_cli()) {
+            echo '<p>Sorry, but this can only be run from the command line.</p>';
+            return;
+        }
 
-			// Output status and exit.
-			if ($arg != $previous) {
-				$this->output("Maintenance mode is now '$arg'.");
-			} else {
-				$this->output("NOTE: Maintenance mode was already '$arg' (nothing has changed).");
-			}
+        try {
+            // Get and validate desired maintenance mode setting.
+            $get = $request->getVars();
+            if (empty($get['args'])) {
+                throw new \Exception("Please provide an argument (e.g. 'on' or 'off').", 1);
+            }
 
-		} catch (\Exception $e) {
-			$this->output('ERROR: '.$e->getMessage());
-			if ($e->getCode() <= 2) {
-				$this->output('Usage: sake dev/tasks/MaintenanceMode [on|off]');
-			}
+            $arg = strtolower(current($get['args']));
+            if ($arg != 'on' && $arg != 'off') {
+                throw new \Exception("Invalid argument: '$arg' (expected 'on' or 'off')", 2);
+            }
 
-		}
-	}
+            // Get and write site configuration now.
+            $config = SiteConfig::current_site_config();
+            $previous = (!empty($config->MaintenanceMode) ? 'on' : 'off');
+            $config->MaintenanceMode = ($arg == 'on');
+            $config->write();
 
-	####################
-	## HELPER METHODS ##
-	####################
+            // Output status and exit.
+            if ($arg != $previous) {
+                $this->output("Maintenance mode is now '$arg'.");
+            } else {
+                $this->output("NOTE: Maintenance mode was already '$arg' (nothing has changed).");
+            }
+        } catch (\Exception $e) {
+            $this->output('ERROR: ' . $e->getMessage());
+            if ($e->getCode() <= 2) {
+                $this->output('Usage: sake dev/tasks/MaintenanceMode [on|off]');
+            }
+        }
+    }
 
-	/**
-	 * Output helper.
-	 *
-	 * @param $text
-	 */
-	protected function output($text)
-	{
-		echo "$text\n";
-	}
+    /**
+     * Output helper.
+     *
+     * @param $text
+     */
+    protected function output($text)
+    {
+        echo "$text\n";
+    }
 }

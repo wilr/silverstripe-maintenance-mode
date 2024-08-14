@@ -14,7 +14,6 @@
 namespace dljoseph\MaintenanceMode;
 
 use SilverStripe\CMS\Controllers\ModelAsController;
-use SilverStripe\Control\HTTP;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Extension;
@@ -57,7 +56,7 @@ class PageControllerExtension extends Extension
 
 
         //Is visitor trying to hit the admin URL?  Give them a chance to log in.
-        if(strstr("/Security/login", $this->owner->RelativeLink())) {
+        if (strstr("/Security/login", $this->owner->RelativeLink())) {
             return;
         }
 
@@ -80,8 +79,6 @@ class PageControllerExtension extends Extension
 
             $controller = ModelAsController::controller_for($utilityPage);
             $response = $controller->handleRequest(new HTTPRequest('GET', ''));
-
-            HTTP::add_cache_headers($response);
             $response->output();
 
             die();
@@ -90,8 +87,6 @@ class PageControllerExtension extends Extension
         // Default: Skip any further processing and immediately respond with a redirect to the UtilityPage.
         $response = new HTTPResponse();
         $response->redirect($utilityPage->AbsoluteLink(), 302);
-
-        HTTP::add_cache_headers($response);
         $response->output();
 
         die();
@@ -116,5 +111,4 @@ class PageControllerExtension extends Extension
     {
         return $this->owner->getRequest()->getIP();
     }
-
-} //end class PageControllerExtension
+}

@@ -18,30 +18,31 @@ use SilverStripe\ORM\DataExtension;
 class SiteConfigExtension extends DataExtension
 {
 
-	/**
-	 * Add database field for flag to either display or hide under construction pages.
-	 *
-	 * @var array
-	 */
-	private static $db = array(
-		'MaintenanceMode' => 'Boolean'
-	);
+    /**
+     * Add database field for flag to either display or hide under construction pages.
+     *
+     * @var array
+     */
+    private static $db = [
+        'MaintenanceMode' => 'Boolean'
+    ];
 
-	/**
-	 * @param FieldList $fields
-	 */
-	public function updateCMSFields(FieldList $fields)
-	{
-		//create new tabs in SiteConfig
-		$fields->addFieldToTab('Root.Access',
-		    FieldGroup::create(
-			    new CheckboxField(
-			        'MaintenanceMode',
-			        _t('MaintenanceMode.SETTINGSACTIVATE', 'Activate Offline/Maintenance Mode')
-		        )
-		    )->setTitle(
-		        _t('MaintenanceMode.SETTINGSHEADING', 'Offline/Maintenance Mode')
-	        )
-	    );
-	} //end updateCMSFields
-} //end class SiteConfigExtension
+    /**
+     * @param FieldList $fields
+     */
+    public function updateCMSFields(FieldList $fields)
+    {
+        //create new tabs in SiteConfig
+        $fields->addFieldToTab(
+            'Root.Access',
+            FieldGroup::create(
+                new CheckboxField(
+                    'MaintenanceMode',
+                    _t('MaintenanceMode.SETTINGSACTIVATE', 'Activate Offline/Maintenance Mode')
+                )
+            )->setTitle(
+                _t('MaintenanceMode.SETTINGSHEADING', 'Offline/Maintenance Mode')
+            )
+        );
+    }
+}
